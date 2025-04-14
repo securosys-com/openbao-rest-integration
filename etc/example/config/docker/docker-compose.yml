@@ -1,0 +1,36 @@
+version: '3.3'
+services:
+    run:
+        container_name: securosys_openbao
+        environment:
+            - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/app'
+        volumes:
+            - securosys_openbao_config:/etc/app/config
+            - securosys_openbao_db:/etc/app/db
+            - securosys_openbao_plugins:/etc/app/plugins 
+        ports:
+            - '0.0.0.0:8200:8200'
+            - '0.0.0.0:8201:8201'
+        image: securosys.jfrog.io/openbao-rest-integration/openbao-rest-integration:latest
+volumes:
+  securosys_openbao_config:
+    driver: local
+    driver_opts:
+       o: bind
+       type: none
+       # Local absolute path to directory which contains all config files
+       device: ./config-files/openbao
+  securosys_openbao_db:
+    driver: local
+    driver_opts:
+       o: bind
+       type: none
+       # Local absolute path to directory where we want to store database
+       device: ./config-files/db
+  securosys_openbao_plugins:
+    driver: local
+    driver_opts:
+       o: bind
+       type: none
+       # Local absolute path to directory where are stored custom plugins
+       device: ./config-files/plugins
